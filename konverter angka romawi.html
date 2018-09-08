@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Konverter Angka Romawi</title>
+</head>
+
+<body>
+	<center>
+	<h1>Konverter Angka Romawi</h1>
+	<form id="form">
+		<p> Silahkan input : <input id="ipt" type="text">
+		<p><input type="radio" id="rmw" name="buletan" value="Romawii"> Ubah ke Angka Romawi
+		<input type="radio" id="arb" name="buletan" value="Arabb"> Ubah ke Angka Arab
+	</form>	
+	<button onclick="fungsiKu()"> P R O S E S </button>	
+	<p id="hasil"></p>
+	</center>
+</body>
+
+<script type="text/javascript">
+
+arab = function(){
+	var arab1 = {'I':1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000 };
+	return function(angkaa){
+		return angkaa.split('').map(function(r){ return arab1[r];})
+			.reduce(function(res,n,i,digits){
+						var prev = i > 0 ? digits[i-1] : 0;
+						return prev < n ? res + n - 2 * prev : res + n;
+					},0);
+	};
+}();
+
+romawi = function(){
+	var romawi1 = [
+		["I","II","III","IV","V","VI","VII","VIII","IX"],
+		["X","XX","XXX","XL","L","LX","LXX","LXXX","XC"],
+		["C","CC","CCC","CD","D","DC","DCC","DCCC","CM"],
+		["M","MM","MMM"]
+	];
+	return function(nomor){
+		return nomor.toString()
+			.split("").reverse()
+			.map(function(s){ return parseInt(s); })
+			.reduce(function(acc,n,idx,arr){ return n > 0 ? romawi1[idx][n-1] + acc : acc;},"");
+	};
+}();
+
+function fungsiKu(y) {
+	var y = document.getElementById("ipt").value;
+	
+	if(document.getElementById('rmw').checked){
+		document.getElementById("hasil").innerHTML = romawi(y);
+	}else if (document.getElementById('arb').checked){
+		document.getElementById("hasil").innerHTML = arab(y);
+	}
+}
+
+</script>
+</html>
